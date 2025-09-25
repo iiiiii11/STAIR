@@ -1,0 +1,32 @@
+temporal_distance:
+  name: tdd_no_cnn
+  params:
+    normalize_images: true
+    max_grad_norm: 0.5
+    model_learning_rate: 3e-4
+    model_features_dim: &model_features_dim 64  
+    model_latents_dim: 64  
+    model_mlp_norm: nonorm
+    model_cnn_norm: nonorm
+    model_gru_norm: nonorm
+    use_model_rnn: 0
+    model_mlp_layers: 1
+    gru_layers: 1
+    use_status_predictor: 0
+    model_cnn_features_extractor_class: mlp
+    model_cnn_features_extractor_kwargs:
+      features_dim: *model_features_dim
+      hidden_dim: 256
+      hidden_depth: 3
+    
+    tdd_aggregate_fn: 'min'
+    
+    tdd_energy_fn: 'mrn_pot'
+    tdd_loss_fn: 'infonce'
+    tdd_logsumexp_coef: 0
+    offpolicy_data: 0  
+  buffer_params:
+    n_batch_p_update: 8 
+    n_episode_p_update: 8
+
+  

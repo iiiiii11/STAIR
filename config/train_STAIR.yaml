@@ -1,0 +1,71 @@
+defaults:
+  - agent: sac
+  - temporal_distance: tdd_no_cnn
+    
+
+experiment: STAIR
+device: cuda
+wandb_name: STAIR
+wandb_group: null
+
+env: metaworld_door-open-v2
+
+seed: 1
+wandb: false
+save_video: true
+save_train_video: false
+log_save_tb: false
+wandb_log_video: false
+wandb_log_histogram: false
+log_frequency: 10000
+
+task_pred: tdd 
+score_metric: count 
+distance_metric: mincover 
+score_softmax_coef: 1.0 
+disagree_filter_ratio: 0.5
+coef_disagree: 0.1
+coef_tdminus: 2.0
+coef_tdist: 0.1
+
+num_train_steps: 1e6
+eval_frequency: 5000
+num_eval_episodes: 10
+
+num_seed_steps: 1000
+num_unsup_steps: 5000
+replay_buffer_capacity: ${num_train_steps}
+gradient_update: 1
+
+segment: 50
+activation: tanh
+num_interact: 20000 
+reward_lr: 0.0003
+reward_batch: 100
+reward_update: 50
+feed_type: tcrm 
+reset_update: 100
+topK: 5
+ensemble_size: 3
+max_feedback: 2000 
+large_batch: 10
+label_margin: 0.0
+teacher_beta: -1
+teacher_gamma: 1
+teacher_eps_mistake: 0
+teacher_eps_skip: 0
+teacher_eps_equal: 0
+
+data_aug_ratio: 0 
+data_aug_window: 5
+threshold_u: 0.99 
+lambda_u: 1 
+
+reward_schedule: 0
+
+td_update_freq: 1
+
+hydra:
+    name: ${env}
+    run:
+        dir: ./exp/${env}/${now:%Y.%m.%d}/${wandb_group}_${experiment}_${agent.name}/${now:%H%M%S}_${feed_type}_seg${segment}_d${disagree_filter_ratio}_${task_pred}_seed${seed}
